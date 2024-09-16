@@ -13,17 +13,10 @@ import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import "react-pro-sidebar/dist/css/styles.css";
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -46,13 +39,13 @@ const SideBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selelcted, setSelected] = useState("Dashboard");
+  const [selected, setSelected] = useState("Dashboard");
 
   return (
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background:` ${colors.primary[400]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -61,14 +54,25 @@ const SideBar = () => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#ffffff !important",
+          backgroundColor: "#3bc8ac !important"
         },
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
+        "& .pro-sub-menu .pro-menu-item": {
+          padding: "5px 5px 5px 5px !important", // Increased padding for submenus
+        },
+        "& .pro-sub-menu .pro-menu-item:hover": {
+          color: "#ffffff !important",
+          backgroundColor: "#3bc8ac !important", // Hover effect for submenu items
+        },
+        "& .pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item" : {
+          paddingLeft: '0px'
+        }
       }}
     >
-      <ProSidebar className="" collapsed={isCollapsed} >
+      <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -97,14 +101,18 @@ const SideBar = () => {
             {!isCollapsed && (
               <Box mb="25px">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="70px"
-                  height="70px"
-                  src={require('../../aasets/images/businessman.png')}
-                  style={{ cursor: "pointer", borderRadius: "50%", marginTop: 10 }}
-                />
-              </Box>
+                  <img
+                    alt="profile-user"
+                    width="70px"
+                    height="70px"
+                    src={require("../../aasets/images/businessman.png")}
+                    style={{
+                      cursor: "pointer",
+                      borderRadius: "50%",
+                      marginTop: 10,
+                    }}
+                  />
+                </Box>
                 <Box textAlign="center">
                   <Typography
                     variant="h2"
@@ -122,31 +130,33 @@ const SideBar = () => {
             )}
           </MenuItem>
 
-          <Box
-          // padding={isCollapsed ? undefined : "10%"}
-          >
+          <Box>
             <Menu iconShape="square">
+              {/* Dashboard */}
               <MenuItem icon={<HomeOutlinedIcon />}>
                 Dashboard
-                <Link to="/" />
+                <Link to="/Dashboard" />
               </MenuItem>
-              <SubMenu title="Authentication" icon={<HomeOutlinedIcon />}>
-                <MenuItem icon={<HomeOutlinedIcon />}>
+
+              {/* Authentication Submenu */}
+              <SubMenu title="Authentication" icon={<PeopleOutlinedIcon />}>
+                <MenuItem icon={<PersonOutlinedIcon />}>
                   All Admin <Link to="/AllAdmin" />
                 </MenuItem>
-                <MenuItem icon={<HomeOutlinedIcon />}>
+                <MenuItem icon={<PersonOutlinedIcon />}>
                   Register - Admin <Link to="/AddAdmin" />
                 </MenuItem>
-                <MenuItem icon={<HomeOutlinedIcon />}>
+                <MenuItem icon={<PersonOutlinedIcon />}>
                   Forget Password <Link to="/ForgetPassword" />
                 </MenuItem>
               </SubMenu>
 
-              <SubMenu title="Users" icon={<HomeOutlinedIcon />}>
-                <MenuItem icon={<HomeOutlinedIcon />}>
+              {/* Users Submenu */}
+              <SubMenu title="Users" icon={<PeopleOutlinedIcon />}>
+                <MenuItem icon={<PersonOutlinedIcon />}>
                   All Users <Link to="/AllUsers" />
                 </MenuItem>
-                <MenuItem icon={<HomeOutlinedIcon />}>
+                <MenuItem icon={<PersonOutlinedIcon />}>
                   Create Creators <Link to="/CreateCreators" />
                 </MenuItem>
               </SubMenu>
@@ -160,76 +170,3 @@ const SideBar = () => {
 };
 
 export default SideBar;
-
-{
-  /* USER*/
-}
-{
-  /* {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Nitin Kudesia
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Vice President
-                </Typography>
-              </Box>
-            </Box>
-          )} */
-}
-{
-  /* <MenuItem> Documentation </MenuItem>
-            <MenuItem> Calendar </MenuItem> */
-}
-{
-  /* <Item
-              title={"Dashboard"}
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selelcted}
-              setSelected={setSelected}
-            />
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography>
-            <Item
-              title={"Authentication"}
-              to="/"
-              icon={<PeopleOutlinedIcon />}
-              selected={selelcted}
-              setSelected={setSelected}
-            />
-            <Item
-              title={"Users"}
-              to="/"
-              icon={<PersonOutlinedIcon />}
-              selected={selelcted}
-              setSelected={setSelected}
-            />
-            <Item
-              title={"Dashboard"}
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selelcted}
-              setSelected={setSelected}
-            /> */
-}

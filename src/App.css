@@ -1,0 +1,13 @@
+.css-12p068q,     .css-im36kd{
+    padding: 0 20px !important;
+}
+.editing-row {
+    background-color: black !important; /* Light blue color to highlight the row */
+  }
+
+  .bg{
+    background-image: url('./aasets/images/Funclub\ logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }

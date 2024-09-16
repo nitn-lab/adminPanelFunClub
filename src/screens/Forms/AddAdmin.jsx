@@ -33,51 +33,45 @@ const AddAdmin = () => {
             // autoComplete="off"
           >
             <FormControl fullWidth margin="dense">
-              <FormLabel>First Name</FormLabel>
+             
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
                 label="First Name"
                 variant="outlined"
               />
-              <FormHelperText id="my-helper-text">
-                Enter your First Name.
-              </FormHelperText>
+              
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>Last Name</FormLabel>
+             
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%"}}
                 color="secondary"
                 // focused
                 id="outlined-basic"
                 label="Last Name"
                 variant="outlined"
               />
-              <FormHelperText id="my-helper-text">
-                Enter your last Name.
-              </FormHelperText>
+              
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>Email Address</FormLabel>
+             
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%"}}
                 color="secondary"
                 // focused
                 id="outlined-basic"
                 label="Email Address"
                 variant="outlined"
               />
-              <FormHelperText id="my-helper-text">
-                We'll never share your email.
-              </FormHelperText>
+            
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>Password</FormLabel>
+           
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%"}}
                 color="secondary"
                 // focused
                 id="outlined-basic"
@@ -92,7 +86,7 @@ const AddAdmin = () => {
             <Button
               color="secondary"
               variant="contained"
-              style={{ width: "20%", marginTop: 15 }}
+              style={{ width: "20%", marginTop : 15, color: "#ffffff", fontWeight: "bold", fontSize: "13px"}}
             >
               Submit
             </Button>
@@ -107,7 +101,7 @@ const AddAdmin = () => {
               }}
             >
               <TextField
-                style={{ width: "40%", marginTop: 15 }}
+                style={{ width: "40%"}}
                 color="secondary"
                 focused
                 id="outlined-basic"
@@ -115,7 +109,7 @@ const AddAdmin = () => {
                 variant="outlined"
               />
               <TextField
-                style={{ width: "40%", marginTop: 15 }}
+                style={{ width: "40%"}}
                 color="secondary"
                 focused
                 id="outlined-basic"
@@ -124,7 +118,7 @@ const AddAdmin = () => {
               />
 
               <TextField
-                style={{ width: "80%", marginTop: 15 }}
+                style={{ width: "80%"}}
                 color="secondary"
                 focused
                 id="outlined-basic"
@@ -132,7 +126,7 @@ const AddAdmin = () => {
                 variant="outlined"
               />
               <TextField
-                style={{ width: "80%", marginTop: 15 }}
+                style={{ width: "80%"}}
                 color="secondary"
                 focused
                 id="outlined-password-input"

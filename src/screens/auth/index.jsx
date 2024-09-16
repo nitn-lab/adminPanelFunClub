@@ -1,4 +1,3 @@
-// import { Box } from "@mui/material";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -14,7 +13,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import iStockTiret from '../../iStockTiret.jpg';
+import logo from '../../aasets/images/Funclub logo.png'
+
 function Copyright(props) {
   return (
     <Typography
@@ -25,7 +25,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Funclub
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -33,9 +33,8 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
+
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,46 +44,24 @@ const Login = () => {
       password: data.get("password"),
     });
   };
+
   const Navigate = useNavigate();
-  //   return (
-  //     <Box display="flex" width="100%" height="100%">
-  //       <Box
-  //         component="img"
-  //         bgcolor="red"
-  //         sx={{
-  //           width: {
-  //             xs: 100,
-  //             sm: 200,
-  //             md: 300,
-  //             lg: "50%",
-  //             xl: "50%",
-  //           },
-  //         }}
-  //         src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-  //       ></Box>
-  //       <Box bgcolor="yellowgreen" width="50%">
-  //         hellllo
-  //       </Box>
-  //     </Box>
-  //   );
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
+        className="bg"
           item
           xs={false}
           sm={4}
           md={7}
           sx={{
-            backgroundImage:{iStockTiret},
-            // backgroundRepeat: "no-repeat",
-            // backgroundColor: (t) =>
-            //   t.palette.mode === "light"
-            //     ? t.palette.grey[50]
-            //     : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            
+            backgroundColor: (t) =>
+              t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
+           
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
