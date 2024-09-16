@@ -25,7 +25,7 @@ const CreateCreators = () => {
       <SideBar />
       <Box sx={{ width: "100%" }}>
         <TopBar />
-        <Box mx="auto" p={{ base: "10px", md: "20px" }}>
+        <Box mx="auto" p={{ base: "10px", md: "10px" }}>
           <Header
             title="Create Creators"
             subtitle="Create Creators - Registration"
@@ -35,7 +35,7 @@ const CreateCreators = () => {
           <Box
             // component="form"
             mx="auto"
-            p={{ base: "15px", md: "20px" }}
+            p={{ base: "15px", md: "10px" }}
             // sx={{
             //   "& .MuiTextField-root": { m: 1, width: "25ch" },
             // }}
@@ -43,9 +43,9 @@ const CreateCreators = () => {
             // autoComplete="off"
           >
             <FormControl fullWidth margin="dense">
-              <FormLabel>Name</FormLabel>
+             
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%"}}
                 color="secondary"
                 // focused
                 id="outlined-basic"
@@ -57,13 +57,13 @@ const CreateCreators = () => {
               </FormHelperText>
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>Creator Username</FormLabel>
+              
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
-                label="Name"
+                label="Creator username"
                 variant="outlined"
               />
               <FormHelperText id="my-helper-text">
@@ -72,9 +72,9 @@ const CreateCreators = () => {
             </FormControl>
 
             <FormControl fullWidth margin="dense">
-              <FormLabel>Email Address</FormLabel>
+              
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
@@ -94,11 +94,11 @@ const CreateCreators = () => {
                 id="outlined-basic"
                 label="Category"
                 color="secondary"
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 variant="outlined"
               >
                 <MenuItem value="">
-                  <em>None</em>
+                  
                 </MenuItem>
                 <MenuItem value={10}>Verfied / Sponsored</MenuItem>
                 <MenuItem value={21}>User to Creator</MenuItem>
@@ -109,9 +109,9 @@ const CreateCreators = () => {
               </FormHelperText>
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>Password</FormLabel>
+              
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
@@ -126,7 +126,7 @@ const CreateCreators = () => {
             <Button
               color="secondary"
               variant="contained"
-              style={{ width: "20%", marginTop: 15 }}
+              style={{ width: "20%", marginTop : 15, color: "#ffffff", fontWeight: "bold", fontSize: "13px"}}
             >
               Submit
             </Button>

@@ -1,3 +1,4 @@
+import './App.css';
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -10,6 +11,7 @@ import AllAdmin from "./screens/allAdmin/AllAdmin";
 import AddAdmin from "./screens/Forms/AddAdmin";
 import CreateCreators from "./screens/Forms/CreateCreators";
 import ForgetPassword from "./screens/Forms/ForgetPassword";
+import UserProfile from './screens/Users/UserProfile';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -22,6 +24,8 @@ function App() {
           <Route path="/" exact element={<Navigate to="/auth" />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/AllUsers" element={<AllUsers />} />
+          <Route path="/UserProfile/:userId" element={<UserProfile />} />
+          <Route path="/creators" element={<AllUsers />} />
           <Route path="AllAdmin" element={<AllAdmin />} />
           <Route path="/AddAdmin" element={<AddAdmin />} />
           <Route path="/CreateCreators" element={<CreateCreators />} />

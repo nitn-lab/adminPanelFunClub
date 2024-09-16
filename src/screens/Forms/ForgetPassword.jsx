@@ -34,23 +34,21 @@ const ForgetPassword = () => {
             
           
             <FormControl fullWidth margin="dense">
-              <FormLabel>Email Address</FormLabel>
+             
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
                 label="Email Address"
                 variant="outlined"
               />
-              <FormHelperText id="my-helper-text">
-                We'll never share your email.
-              </FormHelperText>
+             
             </FormControl>
             <FormControl fullWidth margin="dense">
-              <FormLabel>New Password</FormLabel>
+              
               <TextField
-                style={{ width: "100%", marginTop: 15 }}
+                style={{ width: "100%" }}
                 color="secondary"
                 // focused
                 id="outlined-basic"
@@ -58,14 +56,12 @@ const ForgetPassword = () => {
                 variant="outlined"
                 type="password"
               />
-              <FormHelperText id="my-helper-text">
-                Enter the New Password.
-              </FormHelperText>
+             
             </FormControl>
             <Button
               color="secondary"
               variant="contained"
-              style={{ width: "20%", marginTop: 15 }}
+              style={{ width: "20%", marginTop : 15, color: "#ffffff", fontWeight: "bold", fontSize: "13px"}}
             >
               Submit
             </Button>
