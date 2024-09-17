@@ -13,6 +13,7 @@ import AddAdmin from "./screens/Forms/AddAdmin";
 import CreateCreators from "./screens/Forms/CreateCreators";
 import ForgetPassword from "./screens/Forms/ForgetPassword";
 import UserProfile from './screens/Users/UserProfile';
+import AdminProfile from './screens/allAdmin/AdminProfile';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/creators" element={<AllUsers />} />
           <Route path="AllAdmin" element={<AllAdmin />} />
           <Route path="/AddAdmin" element={<AddAdmin />} />
+          <Route path="/AdminProfile/:id" element={<AdminProfile />} />
           <Route path="/CreateCreators" element={<CreateCreators />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
         </Routes>
