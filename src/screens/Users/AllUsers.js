@@ -5,59 +5,79 @@ import { useLocation, useNavigate } from "react-router-dom";
 import TopBar from "../global/TopBar";
 import SideBar from "../global/SideBar";
 import Header from "../../components/Header";
+import axios from "axios";
+
+const calculateAge = (birthdate) => {
+  const today = new Date();
+  const birthDate = new Date(birthdate);
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const month = today.getMonth() - birthDate.getMonth();
+  if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+    return age - 1;
+  }
+  return age;
+}
 
 const AllUsers = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
   const [roleFilter, setRoleFilter] = useState("All");
-  const [rows, setRows] = useState([
-    {
-      id: 1,
-      name: "Raj",
-      email: "demo@gmail.com",
-      active: true,
-      age: 25,
-      dateCreated: "09-05-2024",
-      lastLogin: "09-05-2024",
-      isAdmin: true,
-      role: "User",
-    },
-    {
-      id: 2,
-      name: "Nitin",
-      email: "demo2@gmail.com",
-      active: true,
-      age: 30,
-      dateCreated: "09-05-2024",
-      lastLogin: "09-05-2024",
-      isAdmin: true,
-      role: "Creator",
-    },
-    {
-      id: 3,
-      name: "Himanshu",
-      email: "demo3@gmail.com",
-      active: true,
-      age: 28,
-      dateCreated: "09-05-2024",
-      lastLogin: "09-05-2024",
-      isAdmin: true,
-      role: "Creator",
-    },
-  ]);
-
+  const [rows, setRows] = useState([]);
   const [editingRowId, setEditingRowId] = useState(null);
   const [rowValues, setRowValues] = useState({});
   const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
-     if(location.pathname.includes('creators')){
-      setRoleFilter("Creator")
-     }
-     else{
-      setRoleFilter("All")
-     }
-  }, [location])
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+        
+        const response = await axios.get("http://3.110.156.153:5000/api/v1/users", {
+          headers: {
+            Authorization: `${token}`,
+          },
+        });
+       
+        const users = response.data.data;
+        console.log(users)
+
+        const formattedUsers = users.map((user, index) => ({
+          id: user._id,
+          name: user.username,
+          email: user.email,
+          active: user.active,
+          age: calculateAge(user.birthdate),
+          dateCreated: user.dateCreated,
+          lastLogin: user.lastLogin,
+          isAdmin: user.isAdmin,
+          role: user.role,
+        }));
+
+        setRows(formattedUsers);
+      } catch (error) {
+        if (error.response) {
+          console.error("Error response:", error.response.data);
+          console.error("Error status:", error.response.status);
+          console.error("Error headers:", error.response.headers);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+        } else {
+          console.error("Error setting up request:", error.message);
+        }
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+
+  useEffect(() => {
+    if (location.pathname.includes('creators')) {
+      setRoleFilter("Creator");
+    } else {
+      setRoleFilter("All");
+    }
+  }, [location]);
 
   useEffect(() => {
     if (editingRowId) {
@@ -89,11 +109,10 @@ const AllUsers = () => {
 
   // Navigate to UserProfile on row click
   const handleRowClick = (params, event) => {
-    // Prevent navigation if Edit button is clicked or the row is in editing mode
     if (event.target.nodeName === "BUTTON" || editingRowId === params.id) {
       return;
     }
-    navigate(`/userProfile/${params.id}`); // Redirect to user profile with the selected row's ID
+    navigate(`/userProfile/${params.id}`);
   };
 
   const filteredRows =
@@ -211,9 +230,9 @@ const AllUsers = () => {
         <TopBar />
         <Box p={2} sx={{ overflowX: "auto" }}>
           <Header title="All Users" />
-          
+
           {/* Subheading */}
-          <Typography variant="subtitle1" sx={{ mb: 2, fontSize : "16px" }}>
+          <Typography variant="subtitle1" sx={{ mb: 2, fontSize: "16px" }}>
             Manage all registered users in the system
           </Typography>
 
@@ -228,7 +247,7 @@ const AllUsers = () => {
               </Select>
             </FormControl>
           </Box>
-          
+
           {/* Data grid table */}
           <Box sx={{ height: 400, width: "100%", overflowX: "auto" }}>
             <DataGrid
