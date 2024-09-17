@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Box, TextField, Button, FormControl, FormControlLabel, Select, MenuItem, Checkbox } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const UserProfile = ({ onSave }) => {
-    const { userId } = useParams(); // Get the userId from URL params
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -17,23 +18,50 @@ const UserProfile = ({ onSave }) => {
     });
 
     useEffect(() => {
-        // Fetch user data by userId (you might want to replace this with a real API call)
-        const fetchUserData = () => {
-            // Placeholder: Replace this with actual data fetching logic
-            const fetchedUser = {
-                name: "Raj",
-                email: "demo@gmail.com",
-                age: 25,
-                role: "User",
-                isAdmin: true,
-                dateCreated: "09-05-2024",
-                lastLogin: "09-05-2024",
-            };
-            setUser(fetchedUser);
+        const fetchUserData = async () => {
+            try {
+                const token = localStorage.getItem('jwtToken');
+                const response = await axios.get(`http://3.110.156.153:5000/api/v1/userById/${id}`, {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                });
+
+                const fetchedUser = response.data.data;
+                setUser({
+                    name: fetchedUser.username,
+                    email: fetchedUser.email,
+                    age: calculateAge(fetchedUser.birthdate), 
+                    role: fetchedUser.role,
+                    isAdmin: fetchedUser.isAdmin,
+                    dateCreated: formatDate(fetchedUser.dateCreated),
+                    lastLogin: formatDate(fetchedUser.lastLogin),
+                });
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
         };
 
         fetchUserData();
-    }, [userId]);
+    }, [id]);
+
+    const calculateAge = (birthdate) => {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age;
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString(); 
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -44,12 +72,11 @@ const UserProfile = ({ onSave }) => {
     };
 
     const handleSave = () => {
-        // Call the passed onSave function to update the users table
         if (onSave) {
             onSave(user);
         }
         console.log("Saved user data:", user);
-        navigate(-1); // Go back to previous page
+        navigate(-1);
     };
 
     return (
@@ -99,12 +126,18 @@ const UserProfile = ({ onSave }) => {
                 </Select>
             </FormControl>
             <Box display="flex" alignItems="center" margin="normal">
-                <FormControlLabel label="Admin" labelPlacement="start" control={
-                    <Checkbox name="isAdmin" checked={user.isAdmin} onChange={handleChange} variant="outlined" color="secondary"/>
-
-                }
+                <FormControlLabel 
+                    label="Admin" 
+                    labelPlacement="start" 
+                    control={
+                        <Checkbox 
+                            name="isAdmin" 
+                            checked={user.isAdmin} 
+                            onChange={handleChange} 
+                            color="secondary"
+                        />
+                    }
                 />
-
             </Box>
             <TextField
                 name="dateCreated"

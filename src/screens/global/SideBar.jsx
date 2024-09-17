@@ -105,7 +105,7 @@ const SideBar = () => {
                     alt="profile-user"
                     width="70px"
                     height="70px"
-                    src={require("../../aasets/images/businessman.png")}
+                    src={require("../../assets/images/businessman.png")}
                     style={{
                       cursor: "pointer",
                       borderRadius: "50%",

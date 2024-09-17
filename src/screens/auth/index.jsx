@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import logo from '../../aasets/images/Funclub logo.png'
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -36,32 +36,42 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const Login = () => {
+  const Navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formData = {
       email: data.get("email"),
       password: data.get("password"),
-    });
-  };
+    };
 
-  const Navigate = useNavigate();
+
+    axios.post('http://3.110.156.153:5000/api/v1/adminLogin', formData)
+      .then((response) => {
+        if (response.status === 200)
+           { Navigate("/Dashboard"); 
+             localStorage.setItem('jwtToken', response.data.jwtToken)
+           }
+      })
+      .catch((error) => {
+        console.error("There was an error logging in!", error);
+      });
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
-        className="bg"
+          className="bg"
           item
           xs={false}
           sm={4}
           md={7}
           sx={{
-            
             backgroundColor: (t) =>
               t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
-           
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -115,18 +125,17 @@ const Login = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={() => Navigate("/Dashboard")}
               >
                 Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/forgetPassword" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
