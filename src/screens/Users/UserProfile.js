@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, FormControl, FormControlLabel, Select, MenuItem, Checkbox } from "@mui/material";
+import { Box, TextField, Button, FormControl, FormControlLabel, Select, MenuItem, Checkbox, InputLabel } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserProfile = ({ onSave }) => {
     const { id } = useParams();
@@ -28,6 +29,7 @@ const UserProfile = ({ onSave }) => {
                 });
 
                 const fetchedUser = response.data.data;
+                console.log(fetchedUser.role)
                 setUser({
                     name: fetchedUser.username,
                     email: fetchedUser.email,
@@ -44,6 +46,8 @@ const UserProfile = ({ onSave }) => {
 
         fetchUserData();
     }, [id]);
+
+    
 
     const calculateAge = (birthdate) => {
         const today = new Date();
@@ -71,12 +75,38 @@ const UserProfile = ({ onSave }) => {
         });
     };
 
-    const handleSave = () => {
-        if (onSave) {
-            onSave(user);
+    const handleSave = async () => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            await axios.put(
+                `http://3.110.156.153:5000/api/v1/updateUsers/${id}`,
+                {
+                    username: user.name,
+                    email: user.email,
+                    birthdate: calculateBirthdateFromAge(user.age), 
+                    role: user.role,
+                    isAdmin: user.isAdmin,
+                },
+                {
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                }
+            );
+            toast.success("User successfully updated!!")
+            if (onSave) {
+                onSave(user);
+            }
+            navigate(-1);
+        } catch (error) {
+            toast.error("Error updating user data");
         }
-        console.log("Saved user data:", user);
-        navigate(-1);
+    };
+
+    const calculateBirthdateFromAge = (age) => {
+        const today = new Date();
+        const birthYear = today.getFullYear() - age;
+        return `${birthYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     };
 
     return (
@@ -114,15 +144,17 @@ const UserProfile = ({ onSave }) => {
                 variant="outlined"
             />
             <FormControl fullWidth margin="normal">
-                <Select
+            <InputLabel id='role-label' color="secondary">Role</InputLabel>
+                <Select labelId="role-label"
                     name="role"
-                    color="secondary"
+                   label="Role"
                     value={user.role}
                     onChange={handleChange}
+                    variant="outlined"
+                    color="secondary"
                 >
-                    <MenuItem value="User">User</MenuItem>
-                    <MenuItem value="Creator">Creator</MenuItem>
-                    <MenuItem value="Special Creator">Special Creator</MenuItem>
+                    <MenuItem value="user">User</MenuItem>
+                    <MenuItem value="creator">Creator</MenuItem>
                 </Select>
             </FormControl>
             <Box display="flex" alignItems="center" margin="normal">

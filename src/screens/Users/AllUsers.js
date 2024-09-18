@@ -39,7 +39,7 @@ const AllUsers = () => {
         });
        
         const users = response.data.data;
-        console.log(users)
+  
 
         const formattedUsers = users.map((user, index) => ({
           id: user._id,
