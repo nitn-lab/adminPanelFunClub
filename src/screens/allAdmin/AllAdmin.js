@@ -28,7 +28,7 @@ const AllAdmin = () => {
         });
 
         const admins = response.data.data;
-        console.log(admins)
+        
 
         const formattedadmins = admins.map((admin, index) => ({
           id: admin._id,

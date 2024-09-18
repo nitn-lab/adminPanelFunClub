@@ -159,6 +159,15 @@ const SideBar = () => {
                 <MenuItem icon={<PersonOutlinedIcon />}>
                   Create Creators <Link to="/CreateCreators" />
                 </MenuItem>
+                <MenuItem icon={<PersonOutlinedIcon />}>
+                  Interests Details <Link to="/Interests" />
+                </MenuItem>
+                <MenuItem icon={<PersonOutlinedIcon />}>
+                  Looking For Details <Link to="/LookingFor" />
+                </MenuItem>
+                <MenuItem icon={<PersonOutlinedIcon />}>
+                  Prompt Questions <Link to="/PromptQuestions" />
+                </MenuItem>
               </SubMenu>
             </Menu>
           </Box>
