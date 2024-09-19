@@ -13,7 +13,7 @@ const UserProfile = ({ onSave }) => {
         email: "",
         age: "",
         role: "",
-        isAdmin: false,
+        active: false,
         dateCreated: "",
         lastLogin: "",
     });
@@ -34,7 +34,7 @@ const UserProfile = ({ onSave }) => {
                     email: fetchedUser.email,
                     age: calculateAge(fetchedUser.birthdate), 
                     role: fetchedUser.role,
-                    isAdmin: fetchedUser.isAdmin,
+                    active: fetchedUser.active,
                     dateCreated: formatDate(fetchedUser.dateCreated),
                     lastLogin: formatDate(fetchedUser.lastLogin),
                 });
@@ -82,7 +82,7 @@ const UserProfile = ({ onSave }) => {
                     email: user.email,
                     birthdate: calculateBirthdateFromAge(user.age), 
                     role: user.role,
-                    isAdmin: user.isAdmin,
+                    active: user.active,
                 },
                 {
                     headers: {
@@ -172,12 +172,12 @@ const UserProfile = ({ onSave }) => {
             </FormControl>
             <Box display="flex" alignItems="center" margin="normal">
                 <FormControlLabel 
-                    label="Admin" 
+                    label="Active" 
                     labelPlacement="start" 
                     control={
                         <Checkbox 
-                            name="isAdmin" 
-                            checked={user.isAdmin} 
+                            name="active" 
+                            checked={user.active} 
                             onChange={handleChange} 
                             color="secondary"
                         />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, MenuItem, FormControl, Select, useTheme } from "@mui/material";
-import { NavLink } from "react-router-dom"; // Import NavLink
+import { NavLink } from "react-router-dom"; 
 import SideBar from "../global/SideBar";
 import TopBar from "../global/TopBar";
 import Header from "../../components/Header";
@@ -15,25 +15,21 @@ import { tokens } from "../../theme";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  // State to manage selected filter
   const [filter, setFilter] = useState("all");
 
-  // State to store total users and other dynamic data
   const [statsData, setStatsData] = useState({
     totalUsers: "Loading...",
-    // totalCreators: "Loading...",
+    totalCreators: "Loading...",
     // newRequests: "Loading...",
     // totalBusiness: "Loading...",
     // currentLive: "Loading..."
   });
 
-  // Handle filter change
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
 
-  // Fetch data from the API when component mounts
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,10 +39,12 @@ const Dashboard = () => {
             Authorization: `${token}`,
           },
         });
-        console.log(response.data.data.length)
+        const users = response.data.data;
+        console.log(response.data.data)
+        const creators = users.filter(user => user.role === "creator");
         setStatsData({
-          totalUsers: response.data.data.length,
-          // totalCreators: response.data.totalCreators,
+          totalUsers: users.length,
+          totalCreators: creators.length,
           // newRequests: response.data.newRequests,
           // totalBusiness: response.data.totalBusiness,
           // currentLive: response.data.currentLive
@@ -59,11 +57,10 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  // Data to display based on filter
   const filteredStats = {
     all: [
       { title: statsData.totalUsers, subtitle: "Total Users", icon: <PeopleOutlinedIcon />, link: "/AllUsers" },
-      { title: "123", subtitle: "Total Creators", icon: <PersonOutlinedIcon />, link: "/creators" },
+      { title: statsData.totalCreators, subtitle: "Total Creators", icon: <PersonOutlinedIcon />, link: "/creators" },
       { title: "123", subtitle: "New Requests - Pending", icon: <PersonAddIcon />, link: "/requests" },
       { title: "123", subtitle: "Total Business", icon: <CurrencyRupeeOutlinedIcon />, link: "/business" },
       { title: "123", subtitle: "Current Live", icon: <PersonAddIcon />, link: "/live" },
@@ -73,7 +70,7 @@ const Dashboard = () => {
       { title: "123", subtitle: "Current Active Users", icon: <PersonAddIcon />, link: "/active-users" },
     ],
     creators: [
-      { title: "123", subtitle: "Total Creators", icon: <PersonOutlinedIcon />, link: "/creators" },
+      { title: statsData.totalCreators, subtitle: "Total Creators", icon: <PersonOutlinedIcon />, link: "/creators" },
       { title: "123", subtitle: "Current Live Creators", icon: <PersonAddIcon />, link: "/live-creators" },
     ],
     business: [
@@ -92,7 +89,6 @@ const Dashboard = () => {
         <Box mx="auto" p={{ base: "10px", md: "20px" }} display="flex" justifyContent="space-between" alignItems="center">
           <Header title="Dashboard" subtitle="Welcome to the dashboard!" />
 
-          {/* Filter dropdown */}
           <FormControl sx={{ minWidth: 120 }}>
             <Select value={filter} onChange={handleFilterChange}>
               <MenuItem value="all">All</MenuItem>
