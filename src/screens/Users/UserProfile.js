@@ -29,7 +29,6 @@ const UserProfile = ({ onSave }) => {
                 });
 
                 const fetchedUser = response.data.data;
-                console.log(fetchedUser.role)
                 setUser({
                     name: fetchedUser.username,
                     email: fetchedUser.email,
@@ -46,8 +45,6 @@ const UserProfile = ({ onSave }) => {
 
         fetchUserData();
     }, [id]);
-
-    
 
     const calculateAge = (birthdate) => {
         const today = new Date();
@@ -79,7 +76,7 @@ const UserProfile = ({ onSave }) => {
         try {
             const token = localStorage.getItem('jwtToken');
             await axios.put(
-                `http://3.110.156.153:5000/api/v1/updateUsers/${id}`,
+               ` http://3.110.156.153:5000/api/v1/updateUsers/${id}`,
                 {
                     username: user.name,
                     email: user.email,
@@ -93,13 +90,28 @@ const UserProfile = ({ onSave }) => {
                     },
                 }
             );
-            toast.success("User successfully updated!!")
+            toast.success("User successfully updated!!");
             if (onSave) {
                 onSave(user);
             }
-            navigate(-1);
+            navigate(-1); 
         } catch (error) {
             toast.error("Error updating user data");
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            await axios.delete(`http://3.110.156.153:5000/api/v1/delete/${id}`, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            });
+            toast.success("User successfully deleted!");
+            navigate(-1); 
+        } catch (error) {
+            toast.error("Error deleting user");
         }
     };
 
@@ -144,10 +156,11 @@ const UserProfile = ({ onSave }) => {
                 variant="outlined"
             />
             <FormControl fullWidth margin="normal">
-            <InputLabel id='role-label' color="secondary">Role</InputLabel>
-                <Select labelId="role-label"
+                <InputLabel id='role-label' color="secondary">Role</InputLabel>
+                <Select
+                    labelId="role-label"
                     name="role"
-                   label="Role"
+                    label="Role"
                     value={user.role}
                     onChange={handleChange}
                     variant="outlined"
@@ -191,14 +204,22 @@ const UserProfile = ({ onSave }) => {
                 variant="outlined"
                 disabled
             />
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleSave}
-                sx={{ mt: 2 }}
-            >
-                Save
-            </Button>
+            <Box display="flex" justifyContent="space-between" sx={{ mt: 2 }}>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleSave}
+                >
+                    Save
+                </Button>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={handleDelete}
+                >
+                    Delete
+                </Button>
+            </Box>
         </Box>
     );
 };

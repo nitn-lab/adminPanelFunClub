@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, FormControl, FormControlLabel, Select, MenuItem, Checkbox } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AdminProfile = ({ onSave }) => {
     const { id } = useParams();
@@ -11,7 +12,6 @@ const AdminProfile = ({ onSave }) => {
         firstName: "",
         lastName: "",
         email: "",
-
         dateCreated: "",
         lastLogin: "",
     });
@@ -31,9 +31,7 @@ const AdminProfile = ({ onSave }) => {
                     firstName: fetchedAdmin.firstName,
                     lastName: fetchedAdmin.lastName,
                     email: fetchedAdmin.email,
-
                     dateCreated: fetchedAdmin.dateCreated,
-                    
                 });
             } catch (error) {
                 console.error("Error fetching Admin data:", error);
@@ -43,15 +41,16 @@ const AdminProfile = ({ onSave }) => {
         fetchAdminData();
     }, [id]);
 
-
+    
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setAdmin({
             ...admin,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: value,
         });
     };
 
+   
     const handleSave = () => {
         if (onSave) {
             onSave(admin);
@@ -60,12 +59,29 @@ const AdminProfile = ({ onSave }) => {
         navigate(-1);
     };
 
+   
+    const handleDelete = async () => {
+        try {
+            const token = localStorage.getItem('jwtToken');
+            await axios.delete(`http://3.110.156.153:5000/api/v1/delete/${id}`, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            });
+            toast.success("Admin successfully deleted!");
+            navigate(-1); 
+        } catch (error) {
+            toast.error("Error deleting admin");
+            console.error("Error deleting admin:", error);
+        }
+    };
+
     return (
         <Box p={3}>
             <h1>Admin Profile</h1>
             <TextField
                 name="firstName"
-                label="FirstName"
+                label="First Name"
                 value={admin.firstName}
                 onChange={handleChange}
                 fullWidth
@@ -93,9 +109,6 @@ const AdminProfile = ({ onSave }) => {
                 margin="normal"
                 variant="outlined"
             />
-
-
-
             <TextField
                 name="dateCreated"
                 label="Date Created"
@@ -106,15 +119,25 @@ const AdminProfile = ({ onSave }) => {
                 variant="outlined"
                 disabled
             />
-           
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleSave}
-                sx={{ mt: 2 }}
-            >
-                Save
-            </Button>
+
+            <Box mt={2} display="flex" justifyContent="space-between">
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleSave}
+                    sx={{ mt: 2 }}
+                >
+                    Save
+                </Button>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={handleDelete}
+                    sx={{ mt: 2 }}
+                >
+                    Delete
+                </Button>
+            </Box>
         </Box>
     );
 };
