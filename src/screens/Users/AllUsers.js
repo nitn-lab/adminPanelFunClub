@@ -46,7 +46,7 @@ const AllUsers = () => {
           age: calculateAge(user.birthdate),
           dateCreated: user.dateCreated,
           lastLogin: user.lastLogin,
-          isAdmin: user.isAdmin,
+          active: user.active,
           role: user.role,
         }));
 
@@ -106,7 +106,7 @@ const AllUsers = () => {
     { field: "email", headerName: "Email", width: 200 },
     { field: "age", headerName: "Age", width: 120 },
     { field: "role", headerName: "Role", width: 150 },
-    { field: "isAdmin", headerName: "Admin", width: 100, renderCell: (params) => (params.value ? "Yes" : "No") },
+    { field: "active", headerName: "Active", width: 100, renderCell: (params) => (params.value ? "✔️" : "❌") },
     {
       field: "actions",
       headerName: "Actions",
