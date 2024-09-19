@@ -12,6 +12,7 @@ import TopBar from "../global/TopBar";
 import SideBar from "../global/SideBar";
 import Header from "../../components/Header";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -36,16 +37,13 @@ const ForgetPassword = () => {
       
     )
     if(response.status === 201){
+      toast.success("Password reset successfully!!")
         navigate('/auth')
     }
 
-      setMessage("Password reset successful!");
     } catch (err) {
-      if (err.response) {
-        setError(err.response.data.message || "Something went wrong");
-      } else {
-        setError("Failed to reset password. Please try again later.");
-      }
+      
+       toast.error(err)
     } finally {
       setLoading(false);
     }
