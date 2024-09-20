@@ -22,7 +22,7 @@ const PromptQuestionForm = () => {
             }
         };
         fetchPrompts();
-    }, []);
+    }, [prompts]);
 
     const handleAddPrompt = async () => {
         if (newPrompt.trim() !== '') {

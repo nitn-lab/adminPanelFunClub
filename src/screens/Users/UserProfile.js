@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, FormControl, FormControlLabel, Select, MenuItem, Checkbox, InputLabel } from "@mui/material";
+import { Box, TextField, Button, FormControl, Select, MenuItem, InputLabel, Avatar, FormControlLabel, Checkbox } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ const UserProfile = ({ onSave }) => {
         email: "",
         age: "",
         role: "",
-        active: false,
+        active: false, 
         dateCreated: "",
         lastLogin: "",
     });
@@ -65,10 +65,17 @@ const UserProfile = ({ onSave }) => {
     };
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setUser({
             ...user,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: value,
+        });
+    };
+
+    const handleCheckboxChange = (e) => {
+        setUser({
+            ...user,
+            active: e.target.checked,  
         });
     };
 
@@ -78,9 +85,9 @@ const UserProfile = ({ onSave }) => {
             await axios.put(
                ` http://3.110.156.153:5000/api/v1/updateUsers/${id}`,
                 {
-                    username: user.name,
-                    email: user.email,
-                    birthdate: calculateBirthdateFromAge(user.age), 
+                    // username: user.name,
+                    // email: user.email,
+                    // birthdate: calculateBirthdateFromAge(user.age), 
                     role: user.role,
                     active: user.active,
                 },
@@ -115,75 +122,89 @@ const UserProfile = ({ onSave }) => {
         }
     };
 
-    const calculateBirthdateFromAge = (age) => {
-        const today = new Date();
-        const birthYear = today.getFullYear() - age;
-        return `${birthYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    };
+    // const calculateBirthdateFromAge = (age) => {
+    //     const today = new Date();
+    //     const birthYear = today.getFullYear() - age;
+    //     return `${birthYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    // };
 
     return (
-        <Box p={3}>
-            <h1>User Profile</h1>
-            <TextField
-                name="name"
-                label="Name"
-                value={user.name}
-                onChange={handleChange}
-                fullWidth
-                color="secondary"
-                margin="normal"
-                variant="outlined"
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 5, borderRadius: 2 }}>
+            <Avatar 
+                alt={user.name} 
+                src="https://i.pravatar.cc/150?img=7"
+                sx={{ width: 100, height: 100, mb: 3 }}
             />
-            <TextField
-                name="email"
-                label="Email"
-                value={user.email}
-                onChange={handleChange}
-                fullWidth
-                color="secondary"
-                margin="normal"
-                variant="outlined"
-            />
-            <TextField
-                name="age"
-                label="Age"
-                type="number"
-                value={user.age}
-                onChange={handleChange}
-                fullWidth
-                color="secondary"
-                margin="normal"
-                variant="outlined"
-            />
-            <FormControl fullWidth margin="normal">
-                <InputLabel id='role-label' color="secondary">Role</InputLabel>
-                <Select
-                    labelId="role-label"
-                    name="role"
-                    label="Role"
-                    value={user.role}
-                    onChange={handleChange}
-                    variant="outlined"
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', mb: 1 }}>
+                <TextField
+                    name="name"
+                    label="Name"
+                    value={user.name}
+                    disabled
+                    fullWidth
                     color="secondary"
-                >
-                    <MenuItem value="user">User</MenuItem>
-                    <MenuItem value="creator">Creator</MenuItem>
-                </Select>
-            </FormControl>
-            <Box display="flex" alignItems="center" margin="normal">
-                <FormControlLabel 
-                    label="Active" 
-                    labelPlacement="start" 
-                    control={
-                        <Checkbox 
-                            name="active" 
-                            checked={user.active} 
-                            onChange={handleChange} 
-                            color="secondary"
-                        />
-                    }
+                    margin="normal"
+                    variant="outlined"
+                    sx={{  marginBottom: '8px' }}
+                />
+                <TextField
+                    name="email"
+                    label="Email"
+                    value={user.email}
+                    disabled
+                    fullWidth
+                    color="secondary"
+                    margin="normal"
+                    variant="outlined"
+                    sx={{  marginBottom: '8px', ml: 2 }}
                 />
             </Box>
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <TextField
+                    name="age"
+                    label="Age"
+                    type="number"
+                    value={user.age}
+                    disabled
+                    fullWidth
+                    color="secondary"
+                    margin="normal"
+                    variant="outlined"
+                    sx={{ marginBottom: '8px' }}
+                />
+                <FormControl fullWidth margin="normal" sx={{ ml: 2 }}>
+                    <InputLabel id='role-label' color="secondary">Role</InputLabel>
+                    <Select
+                        labelId="role-label"
+                        name="role"
+                        label="Role"
+                        value={user.role}
+                        onChange={handleChange}
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ marginBottom: '8px' }}
+                    >
+                        <MenuItem value="user">User</MenuItem>
+                        <MenuItem value="creator">Creator</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
+          
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={user.active}
+                        onChange={handleCheckboxChange}
+                        color="secondary"
+                    />
+                }
+                labelPlacement="start"
+                label="Active"
+                sx={{ alignSelf: 'flex-start' }}
+            />
+
             <TextField
                 name="dateCreated"
                 label="Date Created"
@@ -193,6 +214,7 @@ const UserProfile = ({ onSave }) => {
                 margin="normal"
                 variant="outlined"
                 disabled
+                sx={{ marginBottom: '8px' }}
             />
             <TextField
                 name="lastLogin"
@@ -203,12 +225,16 @@ const UserProfile = ({ onSave }) => {
                 margin="normal"
                 variant="outlined"
                 disabled
+                sx={{ marginBottom: '8px' }}
             />
-            <Box display="flex" justifyContent="space-between" sx={{ mt: 2 }}>
+            
+         
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', mt: 2 }}>
                 <Button
                     variant="contained"
                     color="secondary"
                     onClick={handleSave}
+                    sx={{ mr: 2, width: 'fit-content', px: 3 }}
                 >
                     Save
                 </Button>
@@ -216,6 +242,7 @@ const UserProfile = ({ onSave }) => {
                     variant="contained"
                     color="error"
                     onClick={handleDelete}
+                    sx={{ width: 'fit-content', px: 3 }}
                 >
                     Delete
                 </Button>
